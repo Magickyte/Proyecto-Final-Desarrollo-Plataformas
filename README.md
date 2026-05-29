@@ -29,7 +29,7 @@
 # Interfaz
 ## Plantilla de estilo Admin 
 
-![Captura de pantalla interfaz](img/interfaz.jpg)
+![Captura de pantalla interfaz](img/interfaz.JPG)
 
 # Base de datos:
 ## Conexion a base de datos oracle 
