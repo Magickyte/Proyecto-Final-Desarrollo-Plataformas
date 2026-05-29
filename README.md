@@ -11,12 +11,12 @@
 # Base de datos:
 
 # Requisitos para el Proyecto Final:
-Implementación sobre el framework Spring Boot
-Manejo de base de datos (altas, bajas, cambios y consultas )
-Implementación de almenas 2 rutas de Apache Camel
-Plantilla de estilo admin
-Conexión con RabbitMq
-Opcional conexión a REDIS
+* Implementación sobre el framework Spring Boot
+* Manejo de base de datos (altas, bajas, cambios y consultas )
+* Implementación de almenas 2 rutas de Apache Camel
+* Plantilla de estilo admin
+* Conexión con RabbitMq
+* Opcional conexión a REDIS
 
 # Puertos usados:
 - 8080 - Aplicacion
