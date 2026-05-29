@@ -1,4 +1,4 @@
-# Proyecto Final - Desarrollo Basado en Plataformas:
+# Proyecto Final - Desarrollo Basado en Plataformas
 ## Sistema de Carnet Cultural 
 # Integrantes:
 
@@ -25,6 +25,11 @@
 - 6379 - REDIS
 - 5672 - RabbitMQ 
 - 1521 - Oracle 
+
+# Interfaz
+## Plantilla de estilo Admin 
+
+![Captura de pantalla conexion a oracle](img/Interfaz.JPG)
 
 # Base de datos:
 ## Conexion a base de datos oracle 
