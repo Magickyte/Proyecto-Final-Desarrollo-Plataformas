@@ -1,5 +1,5 @@
-# Base de datos:
-Integrantes:
+# Integrantes:
+
 
 377043 – Angel Rodriguez Palomino
 
