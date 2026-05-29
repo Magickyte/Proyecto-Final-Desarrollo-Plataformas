@@ -8,7 +8,7 @@
 377061 – Jared Isai López Espino
 
 
-# Base de datos:
+
 
 # Requisitos para el Proyecto Final:
 * Implementación sobre el framework Spring Boot
@@ -24,7 +24,7 @@
 - 5672 - RabbitMQ 
 - 1521 - Oracle 
 
-
+# Base de datos:
 ## Conexion a base de datos oracle 
 
 ![Captura de pantalla conexion a oracle](img/conexion_oracle.JPG)
