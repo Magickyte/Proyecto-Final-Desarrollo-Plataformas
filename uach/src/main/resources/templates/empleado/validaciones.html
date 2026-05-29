@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout :: head('Validación de Evidencias')}">
+    <title>Validación de Evidencias</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav th:replace="~{layout :: navbar}"></nav>
+
+        <!-- Sidebar -->
+        <aside th:replace="~{layout :: sidebar-empleado('validaciones')}"></aside>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+
+                    </div>
+                </div>
+            </div>
+
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-primary card-outline">
+                                <div class="card-header">
+                                    <h3 class="card-title">Pendientes de Validación</h3>
+                                </div>
+
+                                <div class="card-body table-responsive p-0">
+                                    <table class="table table-hover text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Estudiante</th>
+                                                <th>Evento</th>
+                                                <th>Descripción</th>
+                                                <th>Fecha Subida</th>
+                                                <th>Evidencia</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="evidencia : ${evidencias}">
+                                                <td th:text="${evidencia.estudiante.idUsuario}">
+                                                    Matricula</td>
+                                                <td th:text="${evidencia.evento.nombreEvento}">Nombre del Evento</td>
+                                                <td th:title="${evidencia.descripcion != null ? evidencia.descripcion : ''}"
+                                                    th:text="${evidencia.descripcion != null ? (#strings.length(evidencia.descripcion) > 20 ? #strings.substring(evidencia.descripcion,0,20) + '...' : evidencia.descripcion) : 'Sin descripción'}">
+                                                    Descripción</td>
+                                                <td
+                                                    th:text="${#temporals.format(evidencia.fechaRegistro, 'dd/MM/yyyy HH:mm')}">
+                                                    Fecha</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-info btn-ver-foto"
+                                                        th:data-url="@{|/empleado/ver-foto?matricula=${evidencia.estudiante.idUsuario}&id_evento=${evidencia.evento.idEvento}|}">
+                                                        <i class="fas fa-eye"></i> Ver Foto
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <form th:action="@{/empleado/aprobar-evidencia}" method="post"
+                                                        style="display:inline;">
+                                                        <input type="hidden" name="matricula"
+                                                            th:value="${evidencia.estudiante.idUsuario}" />
+                                                        <input type="hidden" name="id_evento"
+                                                            th:value="${evidencia.evento.idEvento}" />
+                                                        <button type="submit" class="btn btn-sm btn-success"
+                                                            title="Aprobar"><i class="fas fa-check"></i></button>
+                                                    </form>
+                                                    <form th:action="@{/empleado/rechazar-evidencia}" method="post"
+                                                        style="display:inline;">
+                                                        <input type="hidden" name="matricula"
+                                                            th:value="${evidencia.estudiante.idUsuario}" />
+                                                        <input type="hidden" name="id_evento"
+                                                            th:value="${evidencia.evento.idEvento}" />
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                            title="Rechazar"><i class="fas fa-times"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <tr th:if="${#lists.isEmpty(evidencias)}">
+                                                <td colspan="6" class="text-center">No hay evidencias pendientes por
+                                                    validar.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Modal Ver Foto -->
+        <div class="modal fade" id="fotoModal" tabindex="-1" role="dialog" aria-labelledby="fotoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="fotoModalLabel">Evidencia del Evento</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div id="fotoModalError" class="alert alert-danger" style="display:none;"></div>
+                        <img id="fotoModalImg" src="" alt="Evidencia" class="img-fluid"
+                            style="display:none; max-height: 70vh;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer th:replace="~{layout :: footer}"></footer>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+
+    <script>
+        $(document).ready(function () {
+            $('.btn-ver-foto').click(function () {
+                var url = $(this).data('url');
+
+                // Limpiar modal
+                $('#fotoModalError').hide();
+                $('#fotoModalImg').hide().attr('src', '');
+
+                // Realizar peticion
+                $.get(url, function (data) {
+                    if (data.success) {
+                        $('#fotoModalImg').attr('src', data.url).show();
+                    } else {
+                        $('#fotoModalError').text(data.message).show();
+                    }
+                    $('#fotoModal').modal('show');
+                }).fail(function () {
+                    $('#fotoModalError').text('Error de conexión con el servidor.').show();
+                    $('#fotoModal').modal('show');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

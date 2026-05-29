@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Próximos Eventos')}">
+    <title>Próximos Eventos</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav th:replace="~{layout :: navbar}"></nav>
+
+    <!-- Sidebar -->
+    <aside th:replace="~{layout :: sidebar-estudiante('proximos-eventos')}"></aside>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Próximos Eventos</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Cartelera de Actividades</h3>
+                            </div>
+                            
+
+                            
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Tipo</th>
+                                            <th>Fecha Evento</th>
+                                            <th>Fecha Fin</th>
+                                            <th>Ubicación</th>
+                                            <th>Puntos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="evento : ${eventos}">
+                                            <td th:text="${evento.nombreEvento}">Feria de Ciencias</td>
+                                            <td th:text="${evento.categoria != null ? evento.categoria.nombreCategoria : 'N/A'}">Científico</td>
+                                            <td th:text="${#temporals.format(evento.fechaInicio, 'dd-MMM-yyyy HH:mm')}">25-May-2026</td>
+                                            <td th:text="${#temporals.format(evento.fechaFin, 'dd-MMM-yyyy HH:mm')}"></td>
+                                            <td th:text="${evento.ubicacion}">Facultad de Ingeniería</td>
+                                            <td th:text="${evento.puntos}">2</td>
+                                        </tr>
+                                        <tr th:if="${#lists.isEmpty(eventos)}">
+                                            <td colspan="6" class="text-center">No hay eventos próximos con fecha límite.</td>
+                                        </tr>
+                                        
+                                        <!-- Divisor de Eventos Permanentes -->
+                                        <tr th:if="${not #lists.isEmpty(eventosPermanentes)}" class="bg-light">
+                                            <td colspan="6" class="font-weight-bold text-center text-secondary border-top border-bottom">
+                                                Actividades Permanentes
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- Eventos Permanentes -->
+                                        <tr th:each="evento : ${eventosPermanentes}">
+                                            <td th:text="${evento.nombreEvento}">Feria de Ciencias</td>
+                                            <td th:text="${evento.categoria != null ? evento.categoria.nombreCategoria : 'N/A'}">Científico</td>
+                                            <td th:text="${#temporals.format(evento.fechaInicio, 'dd-MMM-yyyy')}">25-May-2026</td>
+                                            <td>- - - -  - - - - - - - - -</td>
+                                            <td th:text="${evento.ubicacion}">Facultad de Ingeniería</td>
+                                            <td th:text="${evento.puntos}">2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="~{layout :: footer}"></footer>
+</div>
+
+<div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>
